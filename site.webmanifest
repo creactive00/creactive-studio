@@ -1,0 +1,25 @@
+{
+  "name": "Creactive Studio",
+  "short_name": "Creactive",
+  "start_url": "/sq/",
+  "display": "standalone",
+  "background_color": "#0B0B0C",
+  "theme_color": "#F7BC0A",
+  "icons": [
+    {
+      "src": "/assets/img/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    },
+    {
+      "src": "/assets/img/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png"
+    },
+    {
+      "src": "/assets/img/logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

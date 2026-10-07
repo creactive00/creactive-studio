@@ -1,0 +1,40 @@
+<!doctype html>
+<html lang="sq">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Creactive Studio – Reklama në Tetovë: printim, 3D, totema dhe mure reklamuese</title>
+  <meta name="description" content="Reklama në Tetovë nga ideja deri te montimi: printim reklamash, shkronja 3D, reklama ndriçuese, totema reklamues dhe dizajn muresh për biznese në gjithë Maqedoninë e Veriut.">
+  <link rel="alternate" hreflang="sq" href="https://creactive-studio.com/sq/">
+  <link rel="alternate" hreflang="mk" href="https://creactive-studio.com/mk/">
+  <link rel="alternate" hreflang="de" href="https://creactive-studio.com/de/">
+  <link rel="alternate" hreflang="en" href="https://creactive-studio.com/en/">
+  <link rel="alternate" hreflang="x-default" href="https://creactive-studio.com/">
+  <link rel="canonical" href="https://creactive-studio.com/sq/">
+  <meta name="theme-color" content="#0B0B0C">
+  <link rel="icon" href="assets/img/favicon.svg" type="image/svg+xml">
+  <script>
+  // Sprachwahl: 1) gespeicherte Wahl, 2) Browsersprache, 3) Albanisch
+  (function () {
+    var supported = ["sq","mk","de","en"], fallback = 'sq', pick = null;
+    try { pick = localStorage.getItem('cs-lang'); } catch (e) {}
+    if (supported.indexOf(pick) < 0) {
+      pick = null;
+      var list = navigator.languages || [navigator.language || ''];
+      for (var i = 0; i < list.length && !pick; i++) {
+        var c = String(list[i]).toLowerCase().slice(0, 2);
+        if (c === 'al') c = 'sq';
+        if (supported.indexOf(c) > -1) pick = c;
+      }
+    }
+    location.replace((pick || fallback) + '/' + location.hash);
+  })();
+  </script>
+  <style>body{margin:0;background:#0B0B0C;color:#F5F3EE;font:16px/1.6 system-ui,sans-serif;display:grid;place-items:center;min-height:100vh}a{color:#F7BC0A;margin:0 .5rem}</style>
+</head>
+<body>
+  <noscript>
+    <p><a href="sq/" hreflang="sq" lang="sq">Shqip</a> · <a href="mk/" hreflang="mk" lang="mk">Македонски</a> · <a href="de/" hreflang="de" lang="de">Deutsch</a> · <a href="en/" hreflang="en" lang="en">English</a></p>
+  </noscript>
+</body>
+</html>
