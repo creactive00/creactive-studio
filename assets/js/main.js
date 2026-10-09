@@ -198,24 +198,28 @@
     b.addEventListener('click', function () { var c = getConsent() || {}; store.set('cs-consent', JSON.stringify({ necessary: true, maps: true, ts: new Date().toISOString() })); hideCookie(); loadMap(); });
   });
 
-  /* ---------- TikTok-Videos (Zwei-Klick-Lösung) ---------- */
-  function loadVideos() {
-    $$('[data-videos]').forEach(function (box) {
-      var grid = $('[data-video-grid]', box); if (!grid || $('iframe', grid)) return;
-      (box.dataset.ids || '').split(',').forEach(function (id, i) {
-        if (!/^\d+$/.test(id)) return;
-        var card = document.createElement('div'); card.className = 'video-card';
-        var f = document.createElement('iframe');
-        setTimeout(function () { f.src = 'https://www.tiktok.com/embed/v2/' + id; }, i * 700); f.title = box.dataset.title || 'TikTok';
-        f.loading = 'lazy'; f.allow = 'fullscreen; encrypted-media'; f.allowFullscreen = true; f.referrerPolicy = 'strict-origin-when-cross-origin';
-        card.appendChild(f); grid.appendChild(card);
-      });
-      grid.hidden = false; box.classList.add('is-loaded');
+  /* ---------- Videos: Start bei Mouseover (mit Ton), Pause beim Verlassen ---------- */
+  $$('[data-hover-videos]').forEach(function (grid) {
+    var labOn = grid.dataset.soundOn, labOff = grid.dataset.soundOff;
+    $$('.video-card', grid).forEach(function (card) {
+      var v = $('video', card), btn = document.createElement('button'), wantSound = true;
+      btn.type = 'button'; btn.className = 'video-sound';
+      function paint() { var on = !v.muted; btn.setAttribute('aria-pressed', on); btn.setAttribute('aria-label', on ? labOn : labOff); btn.classList.toggle('is-on', on); }
+      function start() {
+        v.muted = !wantSound;
+        var p = v.play();
+        if (p && p.catch) p.catch(function () { v.muted = true; v.play().catch(function () {}); paint(); });
+        paint();
+      }
+      function stop() { v.pause(); v.currentTime = 0; }
+      btn.innerHTML = '<svg class="ic" viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 9a4 4 0 0 1 0 6M18.5 6.5a8 8 0 0 1 0 11"/><path class="cross" d="m16 9 5 6m0-6-5 6"/></svg>';
+      btn.addEventListener('click', function (e) { e.stopPropagation(); wantSound = v.muted; v.muted = !wantSound; paint(); if (v.paused) start(); });
+      card.appendChild(btn); v.muted = false; paint();
+      card.addEventListener('mouseenter', start); card.addEventListener('mouseleave', stop);
+      card.addEventListener('focusin', start); card.addEventListener('focusout', stop);
+      card.tabIndex = 0;
+      card.addEventListener('click', function () { if (v.paused) start(); else stop(); }); // Touch: Tippen startet/stoppt
     });
-  }
-  if (store.get('cs-video') === '1') loadVideos();
-  $$('[data-video-load]').forEach(function (b) {
-    b.addEventListener('click', function () { store.set('cs-video', '1'); loadVideos(); });
   });
   /* ---------- Formular ---------- */
   var form = $('[data-form]');
