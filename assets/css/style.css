@@ -716,3 +716,10 @@ body::before {
 @media (prefers-reduced-motion: reduce) { .logo-item { transition: none; } .logo-item:hover { transform: none; } }
 
 .logo-item--oaza img, .logo-item--sanles img { border-radius: 4px; }
+
+/* ---------- Mehr anzeigen und Footer-Abstand ---------- */
+.project.is-more-hidden { display: none; }
+.more-wrap { margin: 2rem 0 0; text-align: center; }
+.more-wrap[hidden], .more-wrap > [hidden] { display: none; }
+.footer-bottom { padding-bottom: calc(24px + env(safe-area-inset-bottom) + 76px); }
+body.cookie-visible { padding-bottom: var(--cookie-h, 0px); }

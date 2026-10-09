@@ -77,7 +77,16 @@
   });
 
   /* ---------- Portfolio-Filter ---------- */
-  var filters = $('[data-filters]'), grid = $('[data-grid]');
+  var filters = $('[data-filters]'), grid = $('[data-grid]'), moreBtn = $('[data-more]'), PAGE = 12, limit = PAGE;
+  // Zeigt zunächst nur PAGE Projekte je Filter; "Mehr anzeigen" blendet weitere ein
+  function applyLimit() {
+    var n = 0;
+    $$('.project', grid).forEach(function (li) {
+      if (li.classList.contains('is-hidden')) { li.classList.remove('is-more-hidden'); return; }
+      n++; li.classList.toggle('is-more-hidden', n > limit);
+    });
+    if (moreBtn) moreBtn.hidden = n <= limit;
+  }
   if (filters && grid) {
     filters.addEventListener('click', function (e) {
       var b = e.target.closest('[data-filter]'); if (!b) return;
@@ -88,7 +97,10 @@
         li.classList.toggle('is-hidden', !show);
         if (show) { li.classList.remove('is-visible'); void li.offsetWidth; li.classList.add('is-visible'); }
       });
+      limit = PAGE; applyLimit();
     });
+    if (moreBtn) moreBtn.addEventListener('click', function () { limit += PAGE; applyLimit(); });
+    applyLimit();
   }
 
   /* ---------- Lightbox + Vorher/Nachher ---------- */
