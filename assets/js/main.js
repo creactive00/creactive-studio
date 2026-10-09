@@ -96,7 +96,7 @@
   var root = (function () { var l = $('link[rel="stylesheet"]'); return l ? l.getAttribute('href').replace(/assets\/css\/style\.css.*$/, '') : '../'; })();
   var current = 0, lastFocus = null, order = [];
   function imgTag(name, alt, cls) {
-    if (/\.(jpe?g|png)$/i.test(name)) return '<img class="' + (cls || '') + '" src="' + root + 'assets/img/' + name + '" alt="' + esc(alt) + '" width="640" height="640">';
+    if (/\.(jpe?g|png|webp)$/i.test(name)) return '<img class="' + (cls || '') + '" src="' + root + 'assets/img/' + name + '" alt="' + esc(alt) + '" width="640" height="640">';
     return '<img class="' + (cls || '') + '" src="' + root + 'assets/img/' + name + '.webp" srcset="' + root + 'assets/img/' + name + '-800.webp 800w, ' + root + 'assets/img/' + name + '.webp 1600w" sizes="(min-width: 860px) 65vw, 100vw" alt="' + esc(alt) + '" width="1600" height="1100">';
   }
   function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
