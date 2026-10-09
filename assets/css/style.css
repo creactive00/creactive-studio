@@ -681,3 +681,10 @@ select option { background: var(--surface); }
 .video-sound:not(.is-on) .wave { display: none; }
 .video-sound:not(.is-on) .cross { display: inline; }
 .video-sound:hover, .video-sound:focus-visible { background: var(--accent); color: var(--accent-ink); }
+/* ---------- Instagram-Fotos ---------- */
+.ig-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: clamp(8px, 1.6vw, 20px); }
+.ig-item { margin: 0; border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.ig-item img { display: block; width: 100%; height: auto; aspect-ratio: 1 / 1; object-fit: cover; transition: transform .6s var(--ease); }
+.ig-item:hover img { transform: scale(1.04); }
+@media (max-width: 640px) { .ig-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (prefers-reduced-motion: reduce) { .ig-item img { transition: none; } .ig-item:hover img { transform: none; } }
