@@ -655,3 +655,15 @@ select option { background: var(--surface); }
 .cta-dark .cta-statue { -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 35%); mask-image: linear-gradient(90deg, transparent 0%, #000 35%); }
 @media (max-width: 900px) { .cta-dark .cta-statue { opacity: .35; } }
 .hero-dark .hero-badges { color: var(--muted); }
+
+/* ---------- TikTok-Videos (Zwei-Klick) ---------- */
+.videos-box { position: relative; }
+.video-consent { display: flex; flex-direction: column; align-items: center; text-align: center; gap: .9rem; padding: clamp(32px, 6vw, 64px) 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.video-consent > .ic { width: 38px; height: 38px; color: var(--accent); filter: drop-shadow(0 0 10px rgba(247, 188, 10, .7)); }
+.video-consent p { color: var(--muted); font-size: .95rem; max-width: 46ch; margin: 0; }
+.videos-box.is-loaded .video-consent { display: none; }
+.video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 260px), 1fr)); gap: clamp(12px, 2vw, 24px); }
+.video-grid[hidden] { display: none; }
+.video-card { border-radius: var(--radius); overflow: hidden; border: 1px solid var(--line); background: var(--surface); }
+.video-card iframe { display: block; width: 100%; height: 600px; border: 0; }
+@media (max-width: 560px) { .video-grid { grid-template-columns: 1fr; } .video-card iframe { height: 560px; } }
