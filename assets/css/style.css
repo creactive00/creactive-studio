@@ -334,7 +334,7 @@ main:focus { outline: none; }
 /* ---------- About ---------- */
 .about-grid { display: grid; grid-template-columns: 1fr 1.05fr; gap: clamp(32px, 6vw, 90px); align-items: center; }
 .about-media { position: relative; }
-.about-media img { border-radius: var(--radius); aspect-ratio: 4 / 5; object-fit: cover; width: 100%; }
+.about-media img { border-radius: var(--radius); aspect-ratio: 1 / 1; object-fit: cover; width: 100%; }
 .about-glow { position: absolute; inset: auto -12px -12px auto; width: 45%; height: 45%; border: 2px solid var(--accent); border-radius: var(--radius); z-index: -1; box-shadow: var(--glow-box); }
 .about-text > p { color: #D3D0D8; font-size: 1.08rem; }
 .philosophy { margin-top: 2rem; padding: 24px 28px; border-left: 3px solid var(--accent); background: linear-gradient(90deg, rgba(247, 188, 10, .08), transparent); border-radius: 0 var(--radius-sm) var(--radius-sm) 0; }
