@@ -688,3 +688,8 @@ select option { background: var(--surface); }
 .ig-item:hover img { transform: scale(1.04); }
 @media (max-width: 640px) { .ig-grid { grid-template-columns: repeat(2, 1fr); } }
 @media (prefers-reduced-motion: reduce) { .ig-item img { transition: none; } .ig-item:hover img { transform: none; } }
+/* ---------- Entwickler-Randnotiz ---------- */
+.footer-bottom .footer-credit { flex-basis: 100%; margin: .4rem 0 0; padding-top: 1rem; border-top: 1px dashed var(--line); text-align: center; font-size: .82rem; }
+.footer-credit a { color: var(--accent-2); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.footer-credit a:hover { color: var(--text); }
+.footer-credit-line { display: block; margin-top: .15rem; font-style: italic; opacity: .85; }
