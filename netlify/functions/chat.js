@@ -49,29 +49,47 @@ exports.handler = async (event) => {
   const isPhone = /^[+()\d\s\-./]+$/.test(contact) && digits.length >= 6 && digits.length <= 15;
   if (!name || message.length < 5 || !(isEmail || isPhone)) return json(400, { error: 'invalid' });
 
+  const lang = LANGS[b.lang] || clean(b.lang, 5);
+
+  // 1) E-Mail: als Netlify-Forms-Eintrag (Formular "chat" in /chat-form.html);
+  //    die Weiterleitung per E-Mail wird in Netlify unter Notifications eingerichtet.
+  const formUrl = (process.env.URL || `https://${new URL(origin).hostname}`) + '/';
+  const sendForm = async () => {
+    const res = await fetch(formUrl, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+      body: new URLSearchParams({
+        'form-name': 'chat', 'bot-field': '', topic, name, contact, lang, message, page: clean(b.page, 200),
+      }).toString(),
+      redirect: 'manual',
+      signal: AbortSignal.timeout(10000),
+    });
+    // Netlify Forms antwortet mit 200 oder 303; 301/308 würden den POST verwerfen
+    if (![200, 302, 303].includes(res.status)) throw new Error('form ' + res.status);
+  };
+
+  // 2) WhatsApp über CallMeBot (nur wenn CALLMEBOT_APIKEY gesetzt ist)
   const apikey = process.env.CALLMEBOT_APIKEY;
-  if (!apikey) return json(500, { error: 'config' });
-
-  const text = [
-    '💬 Neue Anfrage (Website-Chat)',
-    `Thema: ${topic || '-'}`,
-    `Name: ${name}`,
-    `Kontakt: ${contact}`,
-    `Sprache: ${LANGS[b.lang] || clean(b.lang, 5)}`,
-    '',
-    message,
-  ].join('\n');
-
-  const url = new URL('https://api.callmebot.com/whatsapp.php');
-  url.searchParams.set('phone', process.env.WHATSAPP_PHONE || DEFAULT_PHONE);
-  url.searchParams.set('text', text);
-  url.searchParams.set('apikey', apikey);
-
-  try {
+  const sendWhatsapp = async () => {
+    if (!apikey) throw new Error('no apikey');
+    const text = [
+      '💬 Neue Anfrage (Website-Chat)',
+      `Thema: ${topic || '-'}`,
+      `Name: ${name}`,
+      `Kontakt: ${contact}`,
+      `Sprache: ${lang}`,
+      '',
+      message,
+    ].join('\n');
+    const url = new URL('https://api.callmebot.com/whatsapp.php');
+    url.searchParams.set('phone', process.env.WHATSAPP_PHONE || DEFAULT_PHONE);
+    url.searchParams.set('text', text);
+    url.searchParams.set('apikey', apikey);
     const res = await fetch(url, { signal: AbortSignal.timeout(10000) });
-    if (!res.ok) return json(502, { error: 'upstream' });
-    return json(200, { ok: true });
-  } catch (e) {
-    return json(502, { error: 'upstream' });
-  }
+    if (!res.ok) throw new Error('callmebot ' + res.status);
+  };
+
+  const results = await Promise.allSettled([sendForm(), sendWhatsapp()]);
+  results.forEach((r, i) => { if (r.status === 'rejected') console.error(i === 0 ? 'form' : 'whatsapp', r.reason && r.reason.message); });
+  return results.some((r) => r.status === 'fulfilled') ? json(200, { ok: true }) : json(502, { error: 'upstream' });
 };
