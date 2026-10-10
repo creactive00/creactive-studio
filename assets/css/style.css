@@ -743,3 +743,7 @@ body.cookie-visible { padding-bottom: var(--cookie-h, 0px); }
 
 /* Keine Luecken im Projekt-Raster (breite Karten) */
 .project-grid { grid-auto-flow: dense; }
+
+/* Hero: die Zeile "3D Signage · Graphic Design · Print" so gross wie die Ueberschrift */
+.hero-dark .hero-eyebrow { font-size: max(.7rem, calc(clamp(2.5rem, 1.2rem + 6.2vw, 6.6rem) * .1478)); font-weight: 800; letter-spacing: .08em; line-height: 1.05; margin-bottom: .7em; white-space: nowrap; color: var(--accent); background: none; text-shadow: none; padding: 0; border: 0; }
+@media (max-width: 520px) { .hero-dark .hero-eyebrow { font-size: max(.66rem, 2.17vw); letter-spacing: .06em; white-space: normal; } }
